@@ -1,0 +1,12 @@
+medicaments:
+      - type: "ANTIBIOTIC"
+        brandName: "Zinat"
+        genericName: "alabala"
+        deliveryMethods:
+            - ORAL
+
+      - type: "ANTIBIOTIC"
+        brandName: "Amoxiclav"
+        genericName: "alabala"
+        deliveryMethods:
+            - ORAL
