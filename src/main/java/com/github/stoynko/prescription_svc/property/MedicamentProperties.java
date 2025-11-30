@@ -3,7 +3,6 @@ package com.github.stoynko.prescription_svc.property;
 import com.github.stoynko.prescription_svc.config.YamlPropertySourceFactory;
 import com.github.stoynko.prescription_svc.model.enums.DosageDelivery;
 import com.github.stoynko.prescription_svc.model.enums.MedicamentType;
-import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
