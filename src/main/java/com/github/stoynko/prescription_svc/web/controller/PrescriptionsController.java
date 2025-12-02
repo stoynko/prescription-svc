@@ -5,10 +5,12 @@ import com.github.stoynko.prescription_svc.service.PrescriptionMedicamentService
 import com.github.stoynko.prescription_svc.service.PrescriptionService;
 import com.github.stoynko.prescription_svc.web.dto.mapper.PrescriptionMapper;
 import com.github.stoynko.prescription_svc.web.dto.request.AddMedicamentRequest;
+import com.github.stoynko.prescription_svc.web.dto.request.RemoveMedicamentRequest;
 import com.github.stoynko.prescription_svc.web.dto.response.PrescriptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +56,18 @@ public class PrescriptionsController {
                                                              @RequestBody AddMedicamentRequest request) {
 
         prescriptionService.addMedicament(userId, appointmentId, request);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(null);
+    }
+
+    @PostMapping("/api/v1/appointments/{appointmentId}/prescription/medicaments/remove")
+    public ResponseEntity<Void> removeMedicamentFromPrescription (@PathVariable UUID appointmentId,
+                                                                  @RequestBody RemoveMedicamentRequest request) {
+
+        prescriptionService.verifyAppointment(appointmentId, request.getPrescriptionId());
+
+        prescriptionMedicamentService.removeMedicament(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(null);
