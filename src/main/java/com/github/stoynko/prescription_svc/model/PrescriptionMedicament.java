@@ -1,6 +1,6 @@
 package com.github.stoynko.prescription_svc.model;
 
-import com.github.stoynko.prescription_svc.model.enums.DosageDelivery;
+import com.github.stoynko.prescription_svc.model.enums.DeliveryMethod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,10 +51,10 @@ public class PrescriptionMedicament {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "delivery_method")
-    private DosageDelivery deliveryMethod;
+    private DeliveryMethod deliveryMethod;
 
     @Column(name = "treatment_duration")
-    private int treatmentDuration;
+    private String treatmentDuration;
 
     @Column(name = "additional_notes")
     private String additionalNotes;

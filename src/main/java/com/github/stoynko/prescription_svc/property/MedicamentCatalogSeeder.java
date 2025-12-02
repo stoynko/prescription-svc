@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import static com.github.stoynko.prescription_svc.web.dto.mapper.EntityMapper.toMedicamentEntity;
+import static com.github.stoynko.prescription_svc.web.dto.mapper.MedicamentMapper.toMedicamentEntity;
 
 @Component
 @RequiredArgsConstructor

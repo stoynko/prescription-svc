@@ -1,6 +1,6 @@
 package com.github.stoynko.prescription_svc.model.enums;
 
-public enum DosageDelivery {
+public enum DeliveryMethod {
     ORAL,
     TOPICAL,
     INHALATION,

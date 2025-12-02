@@ -1,7 +1,7 @@
 package com.github.stoynko.prescription_svc.property;
 
 import com.github.stoynko.prescription_svc.config.YamlPropertySourceFactory;
-import com.github.stoynko.prescription_svc.model.enums.DosageDelivery;
+import com.github.stoynko.prescription_svc.model.enums.DeliveryMethod;
 import com.github.stoynko.prescription_svc.model.enums.MedicamentType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -24,11 +24,14 @@ public class MedicamentProperties {
 
         private MedicamentType type;
 
+        private String description;
+
         private String brandName;
 
         private String genericName;
 
-        private Set<DosageDelivery> deliveryMethods;
+        private Set<DeliveryMethod> deliveryMethods;
     }
+
 }
 

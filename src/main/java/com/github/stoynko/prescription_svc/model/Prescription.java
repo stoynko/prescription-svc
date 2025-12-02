@@ -7,6 +7,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,15 +42,16 @@ public class Prescription {
     @Column(name = "public_id")
     private String publicId;
 
-    @Column(name = "appointment_id")
+    @Column(name = "appointment_id", unique = true)
     private UUID appointment;
 
     @OneToMany(mappedBy = "prescription", targetEntity = PrescriptionMedicament.class,
                cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PrescriptionMedicament> medicaments;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "prescription_status")
-    private PrescriptionStatus status;
+    private PrescriptionStatus prescriptionStatus;
 
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;

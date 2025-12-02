@@ -1,6 +1,6 @@
 package com.github.stoynko.prescription_svc.model;
 
-import com.github.stoynko.prescription_svc.model.enums.DosageDelivery;
+import com.github.stoynko.prescription_svc.model.enums.DeliveryMethod;
 import com.github.stoynko.prescription_svc.model.enums.MedicamentType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -41,16 +41,19 @@ public class Medicament {
     @Column(name = "medicament_type", nullable = false)
     private MedicamentType medicamentType;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "brand_name", nullable = false)
     private String brandName;
 
     @Column(name = "generic_name")
     private String genericName;
 
-    @ElementCollection(targetClass = DosageDelivery.class)
+    @ElementCollection(targetClass = DeliveryMethod.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "medicament_delivery_methods",
                      joinColumns = @JoinColumn(name = "medicament_id"))
     @Column(name = "delivery_method")
-    private Set<DosageDelivery> deliveryMethods;
+    private Set<DeliveryMethod> deliveryMethods;
 }
