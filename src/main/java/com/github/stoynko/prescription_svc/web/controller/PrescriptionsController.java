@@ -10,36 +10,33 @@ import com.github.stoynko.prescription_svc.web.dto.response.PrescriptionResponse
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1/appointments")
 @RequiredArgsConstructor
 public class PrescriptionsController {
 
     private final PrescriptionService prescriptionService;
     private final PrescriptionMedicamentService prescriptionMedicamentService;
 
-    @GetMapping("/api/v1/appointments/{appointmentId}/prescription")
+    @GetMapping("/{appointmentId}/prescription")
     public ResponseEntity<PrescriptionResponse> getPrescription(@PathVariable UUID appointmentId) {
+        Prescription prescription = prescriptionService.getById(appointmentId);
+        return ResponseEntity
+                .ok(PrescriptionMapper.toPrescriptionResponse(prescription));
 
-        Optional<Prescription> optionalPrescription = prescriptionService.findByAppointmentId(appointmentId);
-
-        return optionalPrescription
-                .map(PrescriptionMapper::toPrescriptionResponse)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/api/v1/appointments/{appointmentId}/prescription")
+    @PostMapping("/{appointmentId}/prescription")
     public ResponseEntity<PrescriptionResponse> createPrescription(@RequestHeader("user-id") UUID userId,
                                                                    @PathVariable UUID appointmentId) {
 
@@ -50,27 +47,39 @@ public class PrescriptionsController {
                 .body(prescription);
     }
 
-    @PostMapping("/api/v1/appointments/{appointmentId}/prescription/medicaments")
+    @PostMapping("/{appointmentId}/prescription/medicaments")
     public ResponseEntity<Void> addMedicamentToPrescription (@RequestHeader("user-id") UUID userId,
                                                              @PathVariable UUID appointmentId,
                                                              @RequestBody AddMedicamentRequest request) {
 
-        prescriptionService.addMedicament(userId, appointmentId, request);
+        prescriptionService.verifyAppointment(appointmentId, request.getPrescriptionId());
+        prescriptionService.addMedicament(request);
+
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
+                .noContent()
+                .build();
     }
 
-    @PostMapping("/api/v1/appointments/{appointmentId}/prescription/medicaments/remove")
+    @PostMapping("/{appointmentId}/prescription/medicaments/remove")
     public ResponseEntity<Void> removeMedicamentFromPrescription (@PathVariable UUID appointmentId,
                                                                   @RequestBody RemoveMedicamentRequest request) {
 
-        prescriptionService.verifyAppointment(appointmentId, request.getPrescriptionId());
-
-        prescriptionMedicamentService.removeMedicament(request);
+        prescriptionService.removeMedicament(appointmentId, request);
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
+                .noContent()
+                .build();
+    }
+
+    @PostMapping("/{appointmentId}/prescription/issue")
+    public ResponseEntity<Void> issuePrescription(@PathVariable UUID appointmentId,
+                                                  @RequestBody UUID prescriptionId) {
+
+        prescriptionService.verifyAppointment(appointmentId, prescriptionId);
+
+        prescriptionService.issuePrescription(prescriptionId);
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
 }
