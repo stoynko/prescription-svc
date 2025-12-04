@@ -53,6 +53,9 @@ public class Prescription {
     @Column(name = "prescription_status")
     private PrescriptionStatus prescriptionStatus;
 
+    @Column(name = "issued_at")
+    private LocalDateTime issuedAt;
+
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 

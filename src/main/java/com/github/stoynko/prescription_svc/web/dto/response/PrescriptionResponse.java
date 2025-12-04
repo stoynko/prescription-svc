@@ -26,6 +26,8 @@ public class PrescriptionResponse {
 
     LocalDateTime expiresAt;
 
+    LocalDateTime issuedAt;
+
     LocalDateTime updatedAt;
 
     private PrescriptionStatus prescriptionStatus;

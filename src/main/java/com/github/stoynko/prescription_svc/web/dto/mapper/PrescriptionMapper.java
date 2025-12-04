@@ -6,7 +6,6 @@ import com.github.stoynko.prescription_svc.web.dto.response.PrescriptionMedicame
 import com.github.stoynko.prescription_svc.web.dto.response.PrescriptionResponse;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,12 +40,11 @@ public class PrescriptionMapper {
                         .map(MedicamentMapper::toPrescriptionMedicamentResponse)
                         .toList();
 
-        LocalDateTime createdAt = prescription.getCreatedModifiedAt().getCreatedAt();
-
         return PrescriptionResponse.builder()
                 .prescriptionId(prescription.getId())
                 .appointmentId(prescription.getAppointment())
                 .createdAt(prescription.getCreatedModifiedAt().getCreatedAt())
+                .issuedAt(prescription.getIssuedAt())
                 .expiresAt(prescription.getExpiresAt())
                 .prescriptionStatus(prescription.getPrescriptionStatus())
                 .medicaments(medicamentResponses)

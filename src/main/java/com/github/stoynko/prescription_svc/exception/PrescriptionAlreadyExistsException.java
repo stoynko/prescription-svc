@@ -2,9 +2,9 @@ package com.github.stoynko.prescription_svc.exception;
 
 import static com.github.stoynko.prescription_svc.exception.ErrorMessages.PRESCRIPTION_EXISTS;
 
-public class PrescriptionAlreadyExists extends RuntimeException {
+public class PrescriptionAlreadyExistsException extends RuntimeException {
 
-  public PrescriptionAlreadyExists() {
+  public PrescriptionAlreadyExistsException() {
     super(PRESCRIPTION_EXISTS.getDisplayName());
   }
 }

@@ -2,9 +2,9 @@ package com.github.stoynko.prescription_svc.service;
 
 import com.github.stoynko.prescription_svc.exception.AppointmentMismatchException;
 import com.github.stoynko.prescription_svc.exception.MedicamentDoesNotExistException;
-import com.github.stoynko.prescription_svc.exception.PrescriptionAlreadyExists;
+import com.github.stoynko.prescription_svc.exception.PrescriptionAlreadyExistsException;
 import com.github.stoynko.prescription_svc.exception.PrescriptionDoesNotExistException;
-import com.github.stoynko.prescription_svc.exception.PrescriptionInvalidStatus;
+import com.github.stoynko.prescription_svc.exception.PrescriptionInvalidStatusException;
 import com.github.stoynko.prescription_svc.model.Medicament;
 import com.github.stoynko.prescription_svc.model.Prescription;
 import com.github.stoynko.prescription_svc.model.PrescriptionMedicament;
@@ -39,7 +39,7 @@ public class PrescriptionService {
     public PrescriptionResponse createPrescription(UUID appointmentId, UUID userId) {
 
         if (repository.existsPrescriptionByAppointment(appointmentId)) {
-            throw new PrescriptionAlreadyExists();
+            throw new PrescriptionAlreadyExistsException();
         }
 
         Prescription prescription = PrescriptionMapper.toPrescriptionEntity(appointmentId, userId);
@@ -53,7 +53,7 @@ public class PrescriptionService {
         Prescription prescription = getPrescriptionById(request.getPrescriptionId());
 
         if (prescription.getPrescriptionStatus() != DRAFT) {
-            throw new PrescriptionInvalidStatus();
+            throw new PrescriptionInvalidStatusException();
         }
 
         Medicament medicament = medicamentService.getMedicamentById(request.getMedicamentId());
@@ -69,10 +69,11 @@ public class PrescriptionService {
         Prescription prescription = getPrescriptionById(prescriptionId);
 
         if (prescription.getPrescriptionStatus() != DRAFT) {
-            throw new PrescriptionInvalidStatus();
+            throw new PrescriptionInvalidStatusException();
         }
 
         prescription.setPrescriptionStatus(ISSUED);
+        prescription.setIssuedAt(LocalDateTime.now());
         prescription.setExpiresAt(LocalDateTime.now().plusDays(30));
         prescription.getCreatedModifiedAt().setUpdatedAt(LocalDateTime.now());
         repository.save(prescription);
@@ -87,7 +88,7 @@ public class PrescriptionService {
         Prescription prescription = getPrescriptionById(request.getPrescriptionId());
 
         if (prescription.getPrescriptionStatus() != DRAFT) {
-            throw new PrescriptionInvalidStatus();
+            throw new PrescriptionInvalidStatusException();
         }
 
         PrescriptionMedicament prescribedMed =
