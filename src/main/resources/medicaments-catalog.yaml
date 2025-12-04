@@ -2,13 +2,13 @@ medicaments:
       - type: "ANTIBIOTIC"
         description: "Primary medication to treat infection."
         brandName: "Zinat"
-        genericName: "alabala"
+        genericName: "Cefuroxime axetil"
         deliveryMethods:
             - ORAL
 
       - type: "ANTIBIOTIC"
         description: "Primary medication to treat infection."
         brandName: "Amoxiclav"
-        genericName: "alabala"
+        genericName: "Amoxicillin"
         deliveryMethods:
             - ORAL
