@@ -44,7 +44,7 @@ public class PrescriptionService {
 
         Prescription prescription = PrescriptionMapper.toPrescriptionEntity(appointmentId, userId);
         repository.save(prescription);
-        log.info("[prescription-creation] Prescription with id %s was created successfully.".formatted(prescription.getId()));
+        log.info("[prescription-creation] Prescription with id {} was created successfully.", prescription.getId());
         return toPrescriptionResponse(prescription);
     }
 
@@ -62,7 +62,7 @@ public class PrescriptionService {
 
         prescription.getMedicaments().add(prescriptionMedicament);
         repository.save(prescription);
-        log.info("[added-medicament] Medicament with id %s was successfully added to prescription %s".formatted(medicament.getId(), prescription.getId()));
+        log.info("[added-medicament] Medicament with id {} was successfully added to prescription {}", medicament.getId(), prescription.getId());
     }
 
     public void issuePrescription(UUID prescriptionId) {
@@ -77,7 +77,7 @@ public class PrescriptionService {
         prescription.setExpiresAt(LocalDateTime.now().plusDays(30));
         prescription.getCreatedModifiedAt().setUpdatedAt(LocalDateTime.now());
         repository.save(prescription);
-        log.info("[prescription-issued] Prescription with id %s was issued successfully".formatted(prescription.getId()));
+        log.info("[prescription-issued] Prescription with id {} was issued successfully", prescription.getId());
     }
 
     @Transactional
@@ -100,7 +100,7 @@ public class PrescriptionService {
 
         prescription.getMedicaments().remove(prescribedMed);
         prescriptionMedicamentService.removeMedicamentFromPrescription(prescribedMed);
-        log.info("[remove-prescription-medicament] Prescription medicament with id %s was successfully removed".formatted(request.getMedicamentId()));
+        log.info("[remove-prescription-medicament] Prescription medicament with id {} was successfully removed", request.getMedicamentId());
     }
 
     public void verifyAppointment(UUID appointmentId, UUID prescriptionId) {
